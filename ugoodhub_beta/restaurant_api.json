@@ -1,0 +1,182 @@
+[
+    {
+      "name": "Southern rough shrimp",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "1"
+    },
+    {
+      "name": "Pacific cod",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "2"
+    },
+    {
+      "name": "Pink salmon",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "3"
+    },
+    {
+      "name": "Yellow croaker",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "4"
+    },
+    {
+      "name": "Yellow croaker",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "5"
+    },
+    {
+      "name": "Nile perch",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "6"
+    },
+    {
+      "name": "Crucian carp",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "7"
+    },
+    {
+      "name": "Mrigal carp",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "8"
+    },
+    {
+      "name": "North Pacific hake",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "9"
+    },
+    {
+      "name": "Kawakawa",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "10"
+    },
+    {
+      "name": "Hilsa shad",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "11"
+    },
+    {
+      "name": "Argentine hake",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "12"
+    },
+    {
+      "name": "Cape horse mackerel",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "13"
+    },
+    {
+      "name": "Channel catfish",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "14"
+    },
+    {
+      "name": "Pacific anchoveta",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": true,
+      "id": "15"
+    },
+    {
+      "name": "Japanese littleneck",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "16"
+    },
+    {
+      "name": "Indian oil sardine",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "17"
+    },
+    {
+      "name": "Japanese cockle",
+      "imageUrl": "https://sahabatnestle.co.id/sites/default/files/article_combined/4e37fff7dac76d4a7a69976de72955e1b9717a7d.jpeg",
+      "location": "Kampus D",
+      "rating": 4.5,
+      "time": "20-25 menit",
+      "hasMakanan": true,
+      "hasMinuman": false,
+      "id": "18"
+    }
+  ]
