@@ -37,16 +37,28 @@ class _LogInState extends State<LogIn> {
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
 
-  String validateUser(String? email) {
-    var s = email != null && !EmailValidator.validate(email)
-        ? 'Enter a valid email'
-        : this._msg;
+  String? validateUser(String? email) {
+    String? s;
+    if (email != null && !EmailValidator.validate(email)) {
+      s = 'Please enter a valid email';
+    } else if (this._msg == 'User tidak ditemukan') {
+      s = this._msg;
+    } else {
+      s = null;
+    }
     print("test1");
     return s;
   }
 
-  String validatePass(String? pass) {
-    var s = pass!.isEmpty ? "Please enter password" : this._msg;
+  String? validatePass(String? pass) {
+    String? s;
+    if (pass!.isEmpty) {
+      s = "Please enter password";
+    } else if (this._msg == 'Password Salah') {
+      s = this._msg;
+    } else {
+      s = null;
+    }
     print("test2");
     return s;
   }
@@ -79,21 +91,25 @@ class _LogInState extends State<LogIn> {
             }
           }
         }
-        Navigator.pushReplacement(context, MaterialPageRoute(
-          builder: (context) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => RestaurantBloc()..add(LoadRestaurant()),
-                ),
-                BlocProvider(
-                  create: (context) => ProductBloc()..add(LoadProduct()),
-                ),
-              ],
-              child: HomePage(),
-            );
-          },
-        ));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        RestaurantBloc()..add(LoadRestaurant()),
+                  ),
+                  BlocProvider(
+                    create: (context) => ProductBloc()..add(LoadProduct()),
+                  ),
+                ],
+                child: HomePage(),
+              );
+            },
+          ),
+        );
       }
     } catch (e) {
       showDialog<String>(

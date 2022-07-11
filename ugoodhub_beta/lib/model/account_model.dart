@@ -22,4 +22,10 @@ class AccountModel {
         username: json['username'],
         password: json['password'],
       );
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return 'id $id, nama $nama, username => $username email $email, password $password';
+  }
 }

@@ -27,27 +27,59 @@ class LoginProvider with ChangeNotifier {
     required String username,
     required String password,
   }) {
-    for (var user in _list) {
-      if (username.compareTo(user.username) == 0) {
-        _msg = "Email tidak terdaftar";
-        notifyListeners();
-        //buat nge test
-        print(list);
-        break;
-      } else if (password.compareTo(user.password) == 0) {
-        _msg = "password salah";
-        notifyListeners();
-        //buat ngetest
-        print('password salah');
-        break;
-      } else {
-        _msg = "success";
-        notifyListeners();
-        //buat ngetest
-        print('success');
-        break;
-      }
+    print(username);
+    print(password);
+    print(_list.toString());
+
+    /**
+     * cari ada ato nggak
+     */
+
+    AccountModel user;
+
+    try {
+      print('username => $username');
+      user = _list.firstWhere((element) => element.username == username);
+      print('user => $user');
+    } catch (e) {
+      print(e.toString());
+      notifyListeners();
+      return 'User tidak ditemukan';
     }
-    return _msg;
+
+    /**
+     * kalo ada cek passwordnya bener atau nggak
+     */
+    if (user.password != password) {
+      notifyListeners();
+
+      return 'Password Salah';
+    }
+
+    /**
+     * kalo username dan password valid
+     */
+    return 'Username ';
   }
 }
+
+// for (var user in _list) {
+//       if (username.compareTo(user.username) == 0) {
+//         _msg = "Email tidak terdaftar";
+//         notifyListeners();
+//         //buat nge test
+//         print(list);
+//         break;
+//       } else if (password.compareTo(user.password) == 0) {
+//         _msg = "password salah";
+//         notifyListeners();
+//         //buat ngetest
+//         print('password salah');
+//         break;
+//       } else {
+//         _msg = "success";
+//         notifyListeners();
+//         //buat ngetest
+//         print('success');
+//         break;
+//       }
