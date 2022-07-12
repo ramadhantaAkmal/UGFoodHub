@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../../model/contoh_produk.dart';
+import 'package:ug_foodhub/model/cart_model.dart';
 import 'payment_page.dart';
 
 class Cart extends StatefulWidget {
-  final List<ContohProduk> products;
+  final List<CartModel> products;
 
   Cart({required this.products, Key? key}) : super(key: key);
 
@@ -16,17 +16,19 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   final color = Colors.deepOrange;
+
   // sum sebelum ongtip
   int subsum = 0;
-  int ongtip = 3000;
+  int jasa = 3000;
+
   // sum total
   int sum = 0;
 
-  List<ContohProduk> products;
+  List<CartModel> products;
 
   _CartState(this.products) {
     subsum = products.map((e) => e.harga).reduce((n1, n2) => n1 + n2);
-    sum = subsum + ongtip;
+    sum = subsum + jasa;
   }
 
   @override
@@ -83,7 +85,8 @@ class _CartState extends State<Cart> {
         ),
         body: Container(
           color: Colors.white,
-          padding: const EdgeInsets.only(top: 50, bottom: 50),
+          padding:
+              const EdgeInsets.only(top: 50, bottom: 50, left: 10, right: 10),
           child: Column(
             children: [
               /*
@@ -236,7 +239,7 @@ class _CartState extends State<Cart> {
     subsum = products
         .map((e) => e.totalHargaProduk)
         .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-    sum = subsum + ongtip;
+    sum = subsum + jasa;
 
     setState(() {});
   }
@@ -250,7 +253,7 @@ class _CartState extends State<Cart> {
       subsum = products
           .map((e) => e.totalHargaProduk)
           .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-      sum = subsum + ongtip;
+      sum = subsum + jasa;
     });
   }
 
@@ -269,7 +272,7 @@ class _CartState extends State<Cart> {
           .map((e) => e.totalHargaProduk)
           .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
 
-      sum = subsum + ongtip;
+      sum = subsum + jasa;
     });
   }
 
@@ -281,13 +284,16 @@ class _CartState extends State<Cart> {
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Image(
-            image: products[index].image,
+            height: 82,
+            width: 82,
+            fit: BoxFit.cover,
+            image: AssetImage(products[index].image),
           ),
         ),
         SizedBox(
           width: 20,
         ),
-        Container(
+        Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

@@ -3,12 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
+import 'package:ug_foodhub/model/cart_model.dart';
 import 'package:ug_foodhub/ui/page/cart_page.dart';
 
 import '../../logic/bloc/product/product_bloc.dart';
 import '../../logic/bloc/restaurant/restaurant_bloc.dart';
 import '../../logic/cubit/order_cubit.dart';
-import '../../model/contoh_produk.dart';
 import '../widget/filter_drawer_widget.dart';
 import '../widget/navigation_drawer_widget.dart';
 import '../widget/restaurant_card.dart';
@@ -146,22 +146,7 @@ class HomePage extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Cart(
-                                          products: [
-                                            ContohProduk(
-                                                "Sate Kambing",
-                                                'Bumbunya dipisah',
-                                                20000,
-                                                1,
-                                                AssetImage(
-                                                    'assets/images/sate.png')),
-                                            ContohProduk(
-                                                "Sate Ayam",
-                                                'Bumbunya dipisah',
-                                                22000,
-                                                1,
-                                                AssetImage(
-                                                    'assets/images/sate.png')),
-                                          ],
+                                          products: [],
                                         )));
                           },
                           icon: Icon(Icons.shopping_basket_rounded)),

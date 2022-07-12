@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-class ContohProduk {
+class CartModel {
   String nama;
   String desc;
   int harga;
   int quantity;
-  ImageProvider image;
+  String image;
 
-  ContohProduk(this.nama, this.desc, this.harga, this.quantity, this.image);
+  CartModel(this.nama, this.desc, this.harga, this.quantity, this.image);
 
   get totalHargaProduk => harga * quantity;
 }

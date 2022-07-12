@@ -1,0 +1,16 @@
+[
+    {
+        "nama": "Sate Kambing",
+        "desc": "Bumbunya dipisah",
+        "harga": 20000,
+        "quantity": 1,
+        "image": "assets/images/sate.png"
+    },
+    {
+        "nama": "Sate Ayam",
+        "desc": "Bumbunya dipisah",
+        "harga": 22000,
+        "quantity": 1,
+        "image": "assets/images/sate.png"
+    }
+]
