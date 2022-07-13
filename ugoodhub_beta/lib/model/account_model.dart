@@ -13,8 +13,6 @@ class AccountModel {
     required this.password,
   });
 
-  get idUser => id;
-
   static AccountModel fromJson(json) => AccountModel(
         id: json['id'],
         nama: json['nama'],

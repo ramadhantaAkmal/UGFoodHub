@@ -2,281 +2,235 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:ug_foodhub/model/cart_model.dart';
+import '../../logic/provider/cart_provider.dart';
 import 'payment_page.dart';
 
 class Cart extends StatefulWidget {
-  final List<CartModel> products;
-
-  Cart({required this.products, Key? key}) : super(key: key);
+  const Cart({Key? key}) : super(key: key);
 
   @override
-  State<Cart> createState() => _CartState(products);
+  State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
   final color = Colors.deepOrange;
 
-  // sum sebelum ongtip
-  int subsum = 0;
-  int jasa = 3000;
-
-  // sum total
-  int sum = 0;
-
-  List<CartModel> products;
-
-  _CartState(this.products) {
-    subsum = products.map((e) => e.harga).reduce((n1, n2) => n1 + n2);
-    sum = subsum + jasa;
+  @override
+  void initState() {
+    // TODO: implement initState
+    CartProvider _cart = Provider.of<CartProvider>(context, listen: false);
+    _cart.loadData();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    CartProvider _cart = Provider.of<CartProvider>(context, listen: true);
+    final _cartData = _cart.products;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          title: Text(
-            'Keranjang',
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Poppins',
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          //icon tombol back
-          leading: Container(
-            margin:
-                const EdgeInsets.only(left: 7, top: 4, right: 10, bottom: 10),
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(15.0),
+          appBar: AppBar(
+            centerTitle: true,
+            elevation: 0,
+            title: Text(
+              'Keranjang',
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w700,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 1,
-                  blurRadius: 11,
-                  offset: const Offset(6, 4),
+            ),
+            //icon tombol back
+            leading: Container(
+              margin:
+                  const EdgeInsets.only(left: 7, top: 4, right: 10, bottom: 10),
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(15.0),
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 11,
+                    offset: const Offset(6, 4),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(3.0),
+                child: Center(
+                  child: IconButton(
+                    iconSize: 20,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            backgroundColor: Colors.white,
+          ),
+          //_cart.loadData(),
+          body: Container(
+            color: Colors.white,
+            padding:
+                const EdgeInsets.only(top: 50, bottom: 50, left: 10, right: 10),
+            child: Column(
+              children: [
+                /*
+                *
+                *
+                *
+                */
+                //Card product
+                ListView.separated(
+                  itemBuilder: (context, index) {
+                    return buildCart(index, _cartData, _cart);
+                  },
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 20,
+                  ),
+                  itemCount: _cartData.length,
+                  shrinkWrap: true,
+                ),
+                /*
+                *
+                *
+                *
+                */
+                SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'Subtotal',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      NumberFormat.currency(
+                        locale: 'id',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(_cart.subsum),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: [
+                    Text(
+                      'Jasa Aplikasi',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      'Rp 3.000',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: [
+                    Text(
+                      'Total',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Text(
+                      ' (${_cartData.length} items)',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'Poppins',
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    Spacer(),
+                    Text(
+                      NumberFormat.currency(
+                        locale: 'id',
+                        symbol: 'Rp ',
+                        decimalDigits: 0,
+                      ).format(_cart.sum),
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'Poppins',
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ],
+                ),
+                Divider(),
+                Spacer(),
+                MaterialButton(
+                  height: 50,
+                  minWidth: 300,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PaymentPage(
+                                  total: _cart.sum,
+                                )));
+                  },
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(28.0),
+                  ),
+                  child: const Text(
+                    'BAYAR',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  color: color,
                 ),
               ],
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Center(
-                child: IconButton(
-                  iconSize: 20,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          backgroundColor: Colors.white,
-        ),
-        body: Container(
-          color: Colors.white,
-          padding:
-              const EdgeInsets.only(top: 50, bottom: 50, left: 10, right: 10),
-          child: Column(
-            children: [
-              /*
-              *
-              *
-              *
-              */
-              //Card product
-              ListView.separated(
-                itemBuilder: (context, index) {
-                  return buildCart(index);
-                },
-                separatorBuilder: (context, index) => SizedBox(
-                  height: 20,
-                ),
-                itemCount: products.length,
-                shrinkWrap: true,
-              ),
-              /*
-              *
-              *
-              *
-              */
-              SizedBox(
-                height: 50,
-              ),
-              Row(
-                children: [
-                  Text(
-                    'Subtotal',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    NumberFormat.currency(
-                      locale: 'id',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(subsum),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(),
-              Row(
-                children: [
-                  Text(
-                    'Jasa Aplikasi',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    'Rp 3.000',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(),
-              Row(
-                children: [
-                  Text(
-                    'Total',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    ' (${products.length} items)',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Poppins',
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Spacer(),
-                  Text(
-                    NumberFormat.currency(
-                      locale: 'id',
-                      symbol: 'Rp ',
-                      decimalDigits: 0,
-                    ).format(sum),
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: 'Poppins',
-                      fontSize: 15,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(),
-              Spacer(),
-              MaterialButton(
-                height: 50,
-                minWidth: 300,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentPage(
-                                total: sum,
-                              )));
-                },
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(28.0),
-                ),
-                child: const Text(
-                  'BAYAR',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                color: color,
-              ),
-            ],
-          ),
-        ),
-      ),
+          )),
     );
   }
 
-  void removeItem(int index) {
-    products.removeAt(index);
-    subsum = products
-        .map((e) => e.totalHargaProduk)
-        .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-    sum = subsum + jasa;
-
-    setState(() {});
-  }
-
-  void addItem(int index) {
-    // tambahin 1 item ke produk[index]
-    products[index].quantity++;
-
-    // trus update subsum
-    setState(() {
-      subsum = products
-          .map((e) => e.totalHargaProduk)
-          .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-      sum = subsum + jasa;
-    });
-  }
-
-  void reduceItem(int index) {
-    // abaikan jika quantity 1
-    if (products[index].quantity == 1) {
-      return;
-    }
-
-    // kurangin 1 item ke produk[index]
-    products[index].quantity--;
-
-    // trus update subsum
-    setState(() {
-      subsum = products
-          .map((e) => e.totalHargaProduk)
-          .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-
-      sum = subsum + jasa;
-    });
-  }
-
-  Widget buildCart(int index) {
+  Widget buildCart(int index, List<CartModel>? item, CartProvider cart) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -287,7 +241,7 @@ class _CartState extends State<Cart> {
             height: 82,
             width: 82,
             fit: BoxFit.cover,
-            image: AssetImage(products[index].image),
+            image: AssetImage(item![index].image),
           ),
         ),
         SizedBox(
@@ -300,7 +254,7 @@ class _CartState extends State<Cart> {
               Row(
                 children: [
                   Text(
-                    products[index].nama,
+                    item[index].nama,
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Poppins',
@@ -310,7 +264,7 @@ class _CartState extends State<Cart> {
                 ],
               ),
               Text(
-                products[index].desc,
+                item[index].desc,
                 style: TextStyle(
                   color: Colors.grey[400],
                   fontFamily: 'Poppins',
@@ -322,7 +276,7 @@ class _CartState extends State<Cart> {
                   locale: 'id',
                   symbol: 'Rp ',
                   decimalDigits: 0,
-                ).format(products[index].harga),
+                ).format(item[index].harga),
                 style: TextStyle(
                   color: color,
                   fontFamily: 'Poppins',
@@ -343,7 +297,7 @@ class _CartState extends State<Cart> {
             children: [
               IconButton(
                   onPressed: () {
-                    removeItem(index);
+                    cart.removeItem(index);
                   },
                   icon: Icon(
                     Icons.close,
@@ -357,7 +311,7 @@ class _CartState extends State<Cart> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   InkWell(
-                    onTap: () => reduceItem(index),
+                    onTap: () => cart.reduceItem(index),
                     child: CircleAvatar(
                       radius: 12,
                       backgroundColor: Colors.orange,
@@ -376,7 +330,7 @@ class _CartState extends State<Cart> {
                     width: 10,
                   ),
                   Text(
-                    '${products[index].quantity}',
+                    '${item[index].quantity}',
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Poppins',
@@ -387,7 +341,7 @@ class _CartState extends State<Cart> {
                     width: 10,
                   ),
                   InkWell(
-                    onTap: () => addItem(index),
+                    onTap: () => cart.addItem(index),
                     child: CircleAvatar(
                       radius: 12,
                       backgroundColor: color,

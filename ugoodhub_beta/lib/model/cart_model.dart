@@ -1,13 +1,24 @@
-import 'package:flutter/cupertino.dart';
-
 class CartModel {
-  String nama;
-  String desc;
-  int harga;
+  final String nama;
+  final String desc;
+  final int harga;
   int quantity;
-  String image;
+  final String image;
 
-  CartModel(this.nama, this.desc, this.harga, this.quantity, this.image);
+  CartModel(
+      {required this.nama,
+      required this.desc,
+      required this.harga,
+      required this.quantity,
+      required this.image});
 
   get totalHargaProduk => harga * quantity;
+
+  static CartModel fromJson(json) => CartModel(
+        nama: json['nama'],
+        desc: json['desc'],
+        harga: json['harga'],
+        quantity: json['quantity'],
+        image: json['image'],
+      );
 }

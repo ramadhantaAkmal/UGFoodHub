@@ -9,6 +9,7 @@ import 'package:ug_foodhub/ui/page/home_page.dart';
 
 import 'logic/bloc/product/product_bloc.dart';
 import 'logic/bloc/restaurant/restaurant_bloc.dart';
+import 'logic/provider/cart_provider.dart';
 import 'ui/page/onboarding_page.dart';
 
 Future<void> main() async {
@@ -41,7 +42,10 @@ class UGFoodHub extends StatelessWidget {
     return Sizer(
       builder: (context, orientation, deviceType) {
         return MultiProvider(
-          providers: [ChangeNotifierProvider(create: (_) => LoginProvider())],
+          providers: [
+            ChangeNotifierProvider(create: (_) => LoginProvider()),
+            ChangeNotifierProvider(create: (_) => CartProvider())
+          ],
           child: MaterialApp(
               theme: ThemeData(fontFamily: "Poppins"),
               home: (isLoggedIn)

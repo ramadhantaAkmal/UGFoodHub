@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-import 'package:ug_foodhub/model/cart_model.dart';
 import 'package:ug_foodhub/ui/page/cart_page.dart';
 
 import '../../logic/bloc/product/product_bloc.dart';
@@ -143,11 +142,11 @@ class HomePage extends StatelessWidget {
                           iconSize: 25,
                           onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Cart(
-                                          products: [],
-                                        )));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Cart(),
+                              ),
+                            );
                           },
                           icon: Icon(Icons.shopping_basket_rounded)),
                     ),

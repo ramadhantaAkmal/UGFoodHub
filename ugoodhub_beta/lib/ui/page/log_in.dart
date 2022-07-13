@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:ug_foodhub/utility/account_api.dart';
 import 'package:ug_foodhub/model/account_model.dart';
 import '../../logic/bloc/product/product_bloc.dart';
 import '../../logic/bloc/restaurant/restaurant_bloc.dart';
@@ -17,117 +16,18 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  //variable isLoggedin digunakan untuk menandakan apakah user sudah login atau belum
   bool isLoggedin = false;
   int id = 0;
   String nama = "";
   String email = "";
   String _msg = "";
 
+  //variabel formKey yang bertipe GlobalKey<FormState> merupakan variabel untuk melakukan validasi pada form
   final formKey = GlobalKey<FormState>();
-
-  ///This function is for saving data to shared preferences locally
-  void saveData() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setInt('id', id);
-    await pref.setString('nama', nama);
-    await pref.setString('email', email);
-    await pref.setBool('isLoggedin', isLoggedin);
-  }
 
   late TextEditingController _usernameController;
   late TextEditingController _passwordController;
-
-  String? validateUser(String? email) {
-    String? s;
-    if (email != null && !EmailValidator.validate(email)) {
-      s = 'Please enter a valid email';
-    } else if (this._msg == 'User tidak ditemukan') {
-      s = this._msg;
-    } else {
-      s = null;
-    }
-    print("test1");
-    return s;
-  }
-
-  String? validatePass(String? pass) {
-    String? s;
-    if (pass!.isEmpty) {
-      s = "Please enter password";
-    } else if (this._msg == 'Password Salah') {
-      s = this._msg;
-    } else {
-      s = null;
-    }
-    print("test2");
-    return s;
-  }
-
-  void doLogin(
-      {required String username,
-      required String password,
-      required List<AccountModel>? account,
-      required LoginProvider auth}) {
-    _msg = auth.loginAuth(username: username, password: password);
-    final form = formKey.currentState;
-    try {
-      if (form!.validate()) {
-        /*
-         for loops used for accesing data from list
-         the username.compareTo and password.compareTo will pick the choosen account
-         and if all conditions true, the code will set id, nama, and email based on the choosen account
-         isLoggedin set to opposite of it`s value
-         saveData() used to save the data to shared preferences 
-        */
-        for (var user in account!) {
-          if (username.compareTo(user.username) == 0) {
-            if (password.compareTo(user.password) == 0) {
-              id = user.id;
-              nama = user.nama;
-              email = user.email;
-              isLoggedin = !isLoggedin;
-              saveData();
-              break;
-            }
-          }
-        }
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) =>
-                        RestaurantBloc()..add(LoadRestaurant()),
-                  ),
-                  BlocProvider(
-                    create: (context) => ProductBloc()..add(LoadProduct()),
-                  ),
-                ],
-                child: HomePage(),
-              );
-            },
-          ),
-        );
-      }
-    } catch (e) {
-      showDialog<String>(
-        context: context,
-        builder: (BuildContext context) => AlertDialog(
-          title: const Text('Terdapat kesalahan'),
-          //content: const Text('AlertDialog description'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    }
-    return;
-  }
 
   @override
   void initState() {
@@ -152,6 +52,13 @@ class _LogInState extends State<LogIn> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
+        /**
+         * 
+         * 
+         * Bagian AppBar
+         * 
+         * 
+         */
         appBar: AppBar(
           elevation: 0,
           leading: Container(
@@ -190,10 +97,13 @@ class _LogInState extends State<LogIn> {
           ),
           backgroundColor: Colors.transparent,
         ),
-        /*
-          body part using future builder for account data fetch
-         
-        */
+        /**
+         * 
+         * 
+         * Bagian body
+         * 
+         * Menggunakan FutureBuilder untuk mengambil data List<AccountModel>
+         */
         body: FutureBuilder<List<AccountModel>>(
           future: _auth.loadData(),
           builder: (context, snapshot) {
@@ -360,5 +270,116 @@ class _LogInState extends State<LogIn> {
         ),
       ),
     );
+  }
+
+  /**
+   * 
+   * 
+   * Bagian Fungsi
+   * 
+   * 
+  */
+
+  //Fungsi saveData digunakan untuk menyimpan data pada shared preferences secara lokal
+  void saveData() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setInt('id', id);
+    await pref.setString('nama', nama);
+    await pref.setString('email', email);
+    await pref.setBool('isLoggedin', isLoggedin);
+  }
+
+  //Fungsi validateUser digunakan untuk memvalidasi email
+  String? validateUser(String? email) {
+    String? s;
+    if (email != null && !EmailValidator.validate(email)) {
+      s = 'Please enter a valid email';
+    } else if (this._msg == 'User tidak ditemukan') {
+      s = this._msg;
+    } else {
+      s = null;
+    }
+    print("test1");
+    return s;
+  }
+
+  //Fungsi validatePass digunakan untuk memvalidasi password
+  String? validatePass(String? pass) {
+    String? s;
+    if (pass!.isEmpty) {
+      s = "Please enter password";
+    } else if (this._msg == 'Password Salah') {
+      s = this._msg;
+    } else {
+      s = null;
+    }
+    print("test2");
+    return s;
+  }
+
+  void doLogin(
+      {required String username,
+      required String password,
+      required List<AccountModel>? account,
+      required LoginProvider auth}) {
+    _msg = auth.loginAuth(username: username, password: password);
+    final form = formKey.currentState;
+    try {
+      if (form!.validate()) {
+        /**
+         * for loops used for accesing data from list
+         the username.compareTo and password.compareTo will pick the choosen account
+         and if all conditions true, the code will set id, nama, and email based on the choosen account
+         isLoggedin set to opposite of it`s value
+         saveData() used to save the data to shared preferences 
+         */
+        for (var user in account!) {
+          if (username.compareTo(user.username) == 0) {
+            if (password.compareTo(user.password) == 0) {
+              id = user.id;
+              nama = user.nama;
+              email = user.email;
+              isLoggedin = !isLoggedin;
+              saveData();
+              break;
+            }
+          }
+        }
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return MultiBlocProvider(
+                providers: [
+                  BlocProvider(
+                    create: (context) =>
+                        RestaurantBloc()..add(LoadRestaurant()),
+                  ),
+                  BlocProvider(
+                    create: (context) => ProductBloc()..add(LoadProduct()),
+                  ),
+                ],
+                child: HomePage(),
+              );
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text('Terdapat kesalahan'),
+          //content: const Text('AlertDialog description'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    }
+    return;
   }
 }
