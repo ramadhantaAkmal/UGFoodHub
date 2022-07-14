@@ -4,6 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/Material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../../logic/provider/profile_provider.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -16,9 +19,32 @@ class _EditProfileState extends State<EditProfile> {
   PickedFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
+  late TextEditingController _namaController;
+  late TextEditingController _emailController;
+  late TextEditingController _noWaController;
+
+  @override
+  void initState() {
+    super.initState();
+    ProfileProvider _prof =
+        Provider.of<ProfileProvider>(context, listen: false);
+    _namaController = TextEditingController(text: _prof.nama);
+    _emailController = TextEditingController(text: _prof.email);
+    _noWaController = TextEditingController(text: _prof.noWa);
+  }
+
+  @override
+  void dispose() {
+    _namaController.dispose();
+    _emailController.dispose();
+    _noWaController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final name = 'Nama Customer';
+    ProfileProvider _prof = Provider.of<ProfileProvider>(context, listen: true);
+
     double picsize = 90;
 
     ImageProvider image;
@@ -70,6 +96,15 @@ class _EditProfileState extends State<EditProfile> {
           ),
           backgroundColor: Colors.transparent,
         ),
+        /**
+         * 
+         * 
+         * 
+         * Bagian Body
+         * 
+         * 
+         * 
+         */
         body: Container(
           alignment: Alignment.center,
           color: Colors.white,
@@ -127,7 +162,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 Center(
                   child: Text(
-                    name,
+                    _prof.nama,
                     style: TextStyle(
                       color: Colors.black,
                       fontFamily: 'Poppins',
@@ -159,6 +194,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
                 TextField(
+                  controller: _namaController,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -183,6 +219,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -207,6 +244,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
                 TextField(
+                  controller: _noWaController,
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
@@ -226,7 +264,10 @@ class _EditProfileState extends State<EditProfile> {
                   height: 50,
                   padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: MaterialButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _prof.setProfile(_namaController.text,
+                          _emailController.text, null, _noWaController.text);
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28.0),
                     ),

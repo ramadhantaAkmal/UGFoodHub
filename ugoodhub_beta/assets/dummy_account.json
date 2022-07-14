@@ -3,6 +3,7 @@
         "id": 1,
         "nama": "Customer 1",
         "email": "customer1@gmail.com",
+        "noWa": "0812345678",
         "username": "usersatu@gmail.com",
         "password": "pass1"
     },
@@ -10,6 +11,7 @@
         "id": 2,
         "nama": "Customer 2",
         "email": "customer2@gmail.com",
+        "noWa": "0812345678",
         "username": "userdua@gmail.com",
         "password": "pass2"
     }

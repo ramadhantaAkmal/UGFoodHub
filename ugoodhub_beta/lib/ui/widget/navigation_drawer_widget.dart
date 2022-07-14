@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_declarations
 
 import 'package:flutter/Material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ug_foodhub/logic/provider/profile_provider.dart';
 
 import 'package:ug_foodhub/ui/page/onboarding_page.dart';
 import '../page/edit_profile.dart';
@@ -20,17 +22,15 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   final padding = EdgeInsets.only(left: 10, right: 20);
 
   final Uri _url = Uri.parse('mailto:Sektor@gunadarma.ac.id?subject= &body= ');
-  String name = "";
-  String email = "";
 
   @override
   void initState() {
-    super.initState();
+    ProfileProvider _prof =
+        Provider.of<ProfileProvider>(context, listen: false);
     SharedPreferences.getInstance().then((prefs) {
-      setState(() {
-        email = prefs.getString("email")!;
-        name = prefs.getString("nama")!;
-      });
+      _prof.setProfile(prefs.getString("nama")!, prefs.getString("email")!,
+          prefs.getString("image")!, prefs.getString("noWa")!);
+      super.initState();
     });
   }
 
@@ -41,12 +41,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   void saveData() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setBool("logged_in", false);
+    pref.setBool("isLoggedin", false);
   }
 
   @override
   Widget build(BuildContext context) {
-    final image = 'assets/images/emptyAvatar.png';
+    ProfileProvider _prof = Provider.of<ProfileProvider>(context, listen: true);
 
     return ClipRRect(
       borderRadius: BorderRadius.horizontal(right: Radius.circular(30.0)),
@@ -60,9 +60,9 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               padding: padding,
               children: <Widget>[
                 buildHeader(
-                  image: image,
-                  name: name,
-                  email: email,
+                  image: _prof.image,
+                  nama: _prof.nama,
+                  email: _prof.email,
                   context: context,
                 ),
                 Column(
@@ -165,7 +165,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   Widget buildHeader({
     required String image,
-    required String name,
+    required String nama,
     required String email,
     required BuildContext context,
   }) =>
@@ -220,7 +220,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  name,
+                  nama,
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.black,

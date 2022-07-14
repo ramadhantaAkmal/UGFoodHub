@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:ug_foodhub/model/account_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,12 +13,12 @@ class AccountApi {
     return body.map<AccountModel>(AccountModel.fromJson).toList();
   }
 
-  static Future<List<AccountModel>> getUsersLocally(
-      BuildContext context) async {
-    final assetBundle = DefaultAssetBundle.of(context);
-    final data = await assetBundle.loadString('assets/dummy_account.json');
-    final body = json.decode(data);
+  // static Future<List<AccountModel>> getUsersLocally(
+  //     BuildContext context) async {
+  //   final assetBundle = DefaultAssetBundle.of(context);
+  //   final data = await assetBundle.loadString('assets/dummy_account.json');
+  //   final body = json.decode(data);
 
-    return body.map<AccountModel>(AccountModel.fromJson).toList();
-  }
+  //   return body.map<AccountModel>(AccountModel.fromJson).toList();
+  // }
 }

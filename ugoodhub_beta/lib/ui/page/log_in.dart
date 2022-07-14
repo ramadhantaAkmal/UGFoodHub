@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ug_foodhub/model/account_model.dart';
 import '../../logic/bloc/product/product_bloc.dart';
 import '../../logic/bloc/restaurant/restaurant_bloc.dart';
@@ -16,11 +15,6 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
-  //variable isLoggedin digunakan untuk menandakan apakah user sudah login atau belum
-  bool isLoggedin = false;
-  int id = 0;
-  String nama = "";
-  String email = "";
   String _msg = "";
 
   //variabel formKey yang bertipe GlobalKey<FormState> merupakan variabel untuk melakukan validasi pada form
@@ -280,15 +274,6 @@ class _LogInState extends State<LogIn> {
    * 
   */
 
-  //Fungsi saveData digunakan untuk menyimpan data pada shared preferences secara lokal
-  void saveData() async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setInt('id', id);
-    await pref.setString('nama', nama);
-    await pref.setString('email', email);
-    await pref.setBool('isLoggedin', isLoggedin);
-  }
-
   //Fungsi validateUser digunakan untuk memvalidasi email
   String? validateUser(String? email) {
     String? s;
@@ -299,7 +284,6 @@ class _LogInState extends State<LogIn> {
     } else {
       s = null;
     }
-    print("test1");
     return s;
   }
 
@@ -313,7 +297,6 @@ class _LogInState extends State<LogIn> {
     } else {
       s = null;
     }
-    print("test2");
     return s;
   }
 
@@ -322,7 +305,8 @@ class _LogInState extends State<LogIn> {
       required String password,
       required List<AccountModel>? account,
       required LoginProvider auth}) {
-    _msg = auth.loginAuth(username: username, password: password);
+    auth.loginAuth(username: username, password: password);
+    _msg = auth.msg;
     final form = formKey.currentState;
     try {
       if (form!.validate()) {
@@ -336,12 +320,13 @@ class _LogInState extends State<LogIn> {
         for (var user in account!) {
           if (username.compareTo(user.username) == 0) {
             if (password.compareTo(user.password) == 0) {
-              id = user.id;
-              nama = user.nama;
-              email = user.email;
-              isLoggedin = !isLoggedin;
-              saveData();
-              break;
+              auth.id = user.id;
+              auth.nama = user.nama;
+              auth.email = user.email;
+              auth.noWa = user.noWa;
+              auth.image = user.image;
+              auth.setLogin();
+              auth.saveData();
             }
           }
         }
@@ -366,6 +351,7 @@ class _LogInState extends State<LogIn> {
         );
       }
     } catch (e) {
+      print(e);
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(

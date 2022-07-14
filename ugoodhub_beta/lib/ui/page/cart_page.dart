@@ -204,12 +204,29 @@ class _CartState extends State<Cart> {
                   height: 50,
                   minWidth: 300,
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => PaymentPage(
-                                  total: _cart.sum,
-                                )));
+                    if (_cart.products.isNotEmpty) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentPage(
+                                    total: _cart.sum,
+                                  )));
+                    } else {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Keranjang kosong'),
+                          content: const Text(
+                              'Pelanggan belum menambahkan makanan atau minuman kedalam keranjang'),
+                          actions: <Widget>[
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'OK'),
+                              child: const Text('OK'),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
                   },
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(28.0),
