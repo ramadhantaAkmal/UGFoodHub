@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 
 import "package:flutter/material.dart";
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:ug_foodhub/model/order_model.dart';
 
 import '../../model/cart_model.dart';
 import '../../utility/product_api.dart';
@@ -9,13 +11,18 @@ class CartProvider extends ChangeNotifier {
   int _subsum = 0;
   int _jasa = 3000;
   int _sum = 0;
-  String text = 'test';
+
   List<CartModel> _products = [];
+  List<OrderModel> _orders = [];
+  List<int> _restoid = [];
+  List<int> _productid = [];
+  List<String> _desc = [];
 
   int get subsum => _subsum;
   int get jasa => _jasa;
   int get sum => _sum;
   List<CartModel> get products => _products;
+  List<OrderModel> get orders => _orders;
 
   set subsum(int value) {
     _subsum = value;
@@ -32,6 +39,25 @@ class CartProvider extends ChangeNotifier {
   void loadData() async {
     _products = await ProductApi.getProduct();
     initSum(_products);
+    notifyListeners();
+  }
+
+  void orderSet(String metode) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    _orders = [];
+    _restoid = [];
+    _productid = [];
+    _desc = [];
+
+    for (var cart in _products) {
+      _restoid.add(cart.restaurantid);
+      _productid.add(cart.productid);
+      _desc.add(cart.desc);
+    }
+
+    _orders.add(OrderModel('ORDR1234', pref.getInt('id'), _restoid, _productid,
+        _desc, _sum, metode));
+
     notifyListeners();
   }
 
@@ -59,7 +85,7 @@ class CartProvider extends ChangeNotifier {
           .map((e) => e.totalHargaProduk)
           .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
       sum = subsum + jasa;
-      text = 'coba';
+
       notifyListeners();
     } catch (e) {
       print(e);

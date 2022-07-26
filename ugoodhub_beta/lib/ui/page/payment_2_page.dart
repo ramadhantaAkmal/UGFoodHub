@@ -2,17 +2,20 @@
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../logic/provider/cart_provider.dart';
 
 class PaymentConfirmPage extends StatelessWidget {
   final String pilihan;
-  final int total;
 
-  PaymentConfirmPage({required this.pilihan, required this.total, Key? key})
-      : super(key: key);
+  PaymentConfirmPage({required this.pilihan, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final backgroundColor = Colors.white;
+    CartProvider _order = Provider.of<CartProvider>(context, listen: false);
+    var _orderData = _order.orders;
 
     return SafeArea(
       child: Scaffold(
@@ -106,7 +109,7 @@ class PaymentConfirmPage extends StatelessWidget {
                   locale: 'id',
                   symbol: 'Rp ',
                   decimalDigits: 0,
-                ).format(total)}',
+                ).format(_order.sum)}',
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
@@ -143,7 +146,19 @@ class PaymentConfirmPage extends StatelessWidget {
               MaterialButton(
                 height: 50,
                 minWidth: 300,
-                onPressed: () {},
+                onPressed: () {
+                  //TODO: implementasi fungsi tombol akan diubah menjadi fungsi mengirim data ke backend jika sudah ada
+                  for (var orders in _orderData) {
+                    print('orderid: ' + orders.orderid);
+                    print('userid: ' + orders.userid.toString());
+                    print('restoid: ' + orders.restaurantid.toString());
+                    print('productid: ' + orders.productid.toString());
+                    print('desc: ' + orders.desc.toString());
+                    print('total: ' + orders.total.toString());
+                    print('metode: ' + orders.metode);
+                    print('buktibayar: img');
+                  }
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28.0),
                 ),

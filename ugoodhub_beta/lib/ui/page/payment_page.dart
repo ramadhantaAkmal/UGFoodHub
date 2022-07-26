@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../logic/provider/cart_provider.dart';
 import 'payment_2_page.dart';
 
 class PaymentPage extends StatelessWidget {
-  final int total;
-
-  PaymentPage({required this.total, Key? key}) : super(key: key);
+  PaymentPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,6 @@ class PaymentPage extends StatelessWidget {
               ),
               buildImage(
                   'OVO',
-                  total,
                   Image(
                     image: AssetImage('assets/images/ovo.png'),
                     fit: BoxFit.contain,
@@ -94,7 +93,6 @@ class PaymentPage extends StatelessWidget {
               ),
               buildImage(
                   'GOPAY',
-                  total,
                   Image(
                       image: AssetImage('assets/images/gopay.png'),
                       fit: BoxFit.cover),
@@ -104,7 +102,6 @@ class PaymentPage extends StatelessWidget {
               ),
               buildImage(
                   'SHOPEE',
-                  total,
                   Image(
                     image: AssetImage('assets/images/shopee.png'),
                     fit: BoxFit.scaleDown,
@@ -120,18 +117,20 @@ class PaymentPage extends StatelessWidget {
     );
   }
 
-  Widget buildImage(
-      String pilihan, int total, Image imagePath, BuildContext context) {
+  Widget buildImage(String pilihan, Image imagePath, BuildContext context) {
+    CartProvider _order = Provider.of<CartProvider>(context, listen: false);
     return InkWell(
       borderRadius: BorderRadius.all(Radius.circular(15.0)),
       onTap: (() {
+        _order.orderSet(pilihan);
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: ((context) => PaymentConfirmPage(
-                      pilihan: pilihan,
-                      total: total,
-                    ))));
+          context,
+          MaterialPageRoute(
+            builder: ((context) => PaymentConfirmPage(
+                  pilihan: pilihan,
+                )),
+          ),
+        );
       }),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 40),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ug_foodhub/model/cart_model.dart';
 import '../../logic/provider/cart_provider.dart';
 import 'payment_page.dart';
@@ -79,7 +80,6 @@ class _CartState extends State<Cart> {
             ),
             backgroundColor: Colors.white,
           ),
-          //_cart.loadData(),
           body: Container(
             color: Colors.white,
             padding:
@@ -206,11 +206,11 @@ class _CartState extends State<Cart> {
                   onPressed: () {
                     if (_cart.products.isNotEmpty) {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentPage(
-                                    total: _cart.sum,
-                                  )));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentPage(),
+                        ),
+                      );
                     } else {
                       showDialog<String>(
                         context: context,
