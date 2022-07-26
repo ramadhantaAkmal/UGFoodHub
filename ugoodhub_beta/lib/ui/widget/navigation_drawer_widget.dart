@@ -25,13 +25,17 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
 
   @override
   void initState() {
-    ProfileProvider _prof =
-        Provider.of<ProfileProvider>(context, listen: false);
-    SharedPreferences.getInstance().then((prefs) {
-      _prof.setProfile(prefs.getString("nama")!, prefs.getString("email")!,
-          prefs.getString("image")!, prefs.getString("noWa")!);
-      super.initState();
-    });
+    try {
+      ProfileProvider _prof =
+          Provider.of<ProfileProvider>(context, listen: false);
+      SharedPreferences.getInstance().then((prefs) {
+        _prof.setProfile(prefs.getString("nama")!, prefs.getString("email")!,
+            prefs.getString("image")!, prefs.getString("noWa")!);
+        super.initState();
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   removeAll() async {
@@ -164,7 +168,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   }
 
   Widget buildHeader({
-    required String image,
+    required String? image,
     required String nama,
     required String email,
     required BuildContext context,
@@ -177,7 +181,11 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(radius: 40, backgroundImage: AssetImage(image)),
+                CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(
+                      image ?? "assets/images/emptyAvatar.png",
+                    )),
                 Spacer(),
                 Container(
                   padding: const EdgeInsets.all(1),

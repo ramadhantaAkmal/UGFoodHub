@@ -1,5 +1,7 @@
 [
     {
+        "productid": 1,
+        "restaurantid": 1,
         "nama": "Sate Kambing",
         "desc": "Bumbunya dipisah",
         "harga": 20000,
@@ -7,6 +9,8 @@
         "image": "assets/images/sate.png"
     },
     {
+        "productid": 2,
+        "restaurantid": 1,
         "nama": "Sate Ayam",
         "desc": "Bumbunya dipisah",
         "harga": 22000,
