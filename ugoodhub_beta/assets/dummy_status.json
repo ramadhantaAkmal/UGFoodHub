@@ -4,6 +4,7 @@
         "restaurantid": 1,
         "productid": 1,
         "restoname": "Sate Bakar Pak Ali",
+        "restonum": "082124199305",
         "status": "Disiapkan"
     },
     {
@@ -11,6 +12,7 @@
         "restaurantid": 1,
         "productid": 2,
         "restoname": "Sate Bakar Pak Ali",
+        "restonum": "082124199305",
         "status": "Selesai"
     }
 ]

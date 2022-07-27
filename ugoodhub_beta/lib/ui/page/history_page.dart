@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../logic/provider/status_provider.dart';
+import '../../model/status_model.dart';
 import 'reviewResto_page.dart';
 
 class History extends StatefulWidget {
@@ -12,7 +15,16 @@ class History extends StatefulWidget {
 
 class _HistoryState extends State<History> {
   @override
+  void initState() {
+    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: false);
+    _stat.loadData();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: true);
+
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -124,28 +136,28 @@ class _HistoryState extends State<History> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                buildWorking(),
+                                buildWorking(_stat.listworking, index),
                                 SizedBox(
                                   height: 20,
                                 ),
                               ],
                             );
                           },
-                          itemCount: 1,
+                          itemCount: _stat.listworking.length,
                           shrinkWrap: true,
                         ),
                         ListView.builder(
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                buildDone(),
+                                buildDone(_stat.listdone, index),
                                 SizedBox(
                                   height: 20,
                                 ),
                               ],
                             );
                           },
-                          itemCount: 1,
+                          itemCount: _stat.listdone.length,
                           shrinkWrap: true,
                         ),
                       ],
@@ -160,7 +172,7 @@ class _HistoryState extends State<History> {
     );
   }
 
-  Widget buildDone() {
+  Widget buildDone(List<StatusModel> statlist, int index) {
     return Card(
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -185,7 +197,7 @@ class _HistoryState extends State<History> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'Sate Bakar Pak Ali',
+                  statlist[index].restoname,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins',
@@ -194,7 +206,7 @@ class _HistoryState extends State<History> {
                   ),
                 ),
                 Text(
-                  'Selesai',
+                  statlist[index].status,
                   style: TextStyle(
                     color: Colors.grey,
                     fontFamily: 'Poppins',
@@ -250,7 +262,7 @@ class _HistoryState extends State<History> {
     );
   }
 
-  Widget buildWorking() {
+  Widget buildWorking(List<StatusModel> statlist, int index) {
     return Card(
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -275,7 +287,7 @@ class _HistoryState extends State<History> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  'Sate Bakar Pak Ali',
+                  statlist[index].restoname,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins',
@@ -284,7 +296,7 @@ class _HistoryState extends State<History> {
                   ),
                 ),
                 Text(
-                  'Pesanan Disiapkan',
+                  statlist[index].status,
                   style: TextStyle(
                     color: Colors.grey,
                     fontFamily: 'Poppins',
