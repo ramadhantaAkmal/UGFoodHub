@@ -1,0 +1,16 @@
+[
+    {
+        "statusid": "STS234",
+        "restaurantid": 1,
+        "productid": 1,
+        "restoname": "Sate Bakar Pak Ali",
+        "status": "Disiapkan"
+    },
+    {
+        "statusid": "STS432",
+        "restaurantid": 1,
+        "productid": 2,
+        "restoname": "Sate Bakar Pak Ali",
+        "status": "Selesai"
+    }
+]
