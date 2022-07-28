@@ -2,9 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../logic/provider/status_provider.dart';
 import '../../model/status_model.dart';
-import 'reviewResto_page.dart';
+import 'reviewresto_page.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -150,7 +151,7 @@ class _HistoryState extends State<History> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                buildDone(_stat.listdone, index),
+                                buildDone(_stat.listdone, index, _stat),
                                 SizedBox(
                                   height: 20,
                                 ),
@@ -172,7 +173,13 @@ class _HistoryState extends State<History> {
     );
   }
 
-  Widget buildDone(List<StatusModel> statlist, int index) {
+  void _openWa(String num) async {
+    String url = "whatsapp://send?phone=$num&text=hello";
+
+    if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
+  }
+
+  Widget buildDone(List<StatusModel> statlist, int index, StatusProvider stat) {
     return Card(
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -233,10 +240,14 @@ class _HistoryState extends State<History> {
                       minWidth: 0.1,
                       height: 30,
                       onPressed: () {
+                        //TODO: passing idresto,idprod,restoname, prodname
+                        stat.loadDataRate();
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ReviewResto()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ReviewResto(),
+                          ),
+                        );
                       },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -322,7 +333,9 @@ class _HistoryState extends State<History> {
                     child: MaterialButton(
                       minWidth: 0.1,
                       height: 30,
-                      onPressed: () {},
+                      onPressed: () {
+                        _openWa(statlist[index].restonum);
+                      },
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0),

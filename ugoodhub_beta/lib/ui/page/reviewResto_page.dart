@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+import '../../logic/provider/status_provider.dart';
 import 'reviewfood_page.dart';
 
 class ReviewResto extends StatefulWidget {
@@ -12,10 +14,10 @@ class ReviewResto extends StatefulWidget {
 }
 
 class _ReviewRestoState extends State<ReviewResto> {
-  double rating = 0;
-
   @override
   Widget build(BuildContext context) {
+    StatusProvider _rate = Provider.of<StatusProvider>(context, listen: true);
+    double rating = 0;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -72,7 +74,7 @@ class _ReviewRestoState extends State<ReviewResto> {
                   height: 30,
                 ),
                 Text(
-                  'Sate Bakar Pak Ali',
+                  _rate.restorate[0].nama,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Poppins',
@@ -84,7 +86,7 @@ class _ReviewRestoState extends State<ReviewResto> {
                   height: 30,
                 ),
                 RatingBar(
-                  initialRating: 3,
+                  initialRating: rating,
                   direction: Axis.horizontal,
                   allowHalfRating: false,
                   itemCount: 5,
@@ -104,7 +106,10 @@ class _ReviewRestoState extends State<ReviewResto> {
                   ),
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   onRatingUpdate: (rating) {
-                    print(rating);
+                    _rate.restoRateChange(rating);
+                    print(_rate.restorate[0].nama +
+                        " rate = " +
+                        _rate.restorate[0].rate.toString());
                   },
                 ),
                 SizedBox(

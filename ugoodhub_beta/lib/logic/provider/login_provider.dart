@@ -64,7 +64,7 @@ class LoginProvider with ChangeNotifier {
     required String password,
   }) {
     for (var user in _list) {
-      AccountModel user;
+      //AccountModel user;
 
       try {
         user = _list.firstWhere((element) => element.username == username);

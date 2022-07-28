@@ -3,6 +3,7 @@ class StatusModel {
   final int restaurantid;
   final int productid;
   final String restoname;
+  final String restonum;
   String status;
 
   StatusModel({
@@ -10,6 +11,7 @@ class StatusModel {
     required this.restaurantid,
     required this.productid,
     required this.restoname,
+    required this.restonum,
     required this.status,
   });
 
@@ -18,6 +20,7 @@ class StatusModel {
         restaurantid: json['restaurantid'],
         productid: json['productid'],
         restoname: json['restoname'],
+        restonum: json['restonum'],
         status: json['status'],
       );
 }

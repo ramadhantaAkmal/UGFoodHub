@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import '../../model/contoh_rate.dart';
+import 'package:provider/provider.dart';
+import '../../logic/provider/status_provider.dart';
+import '../../model/rate_model.dart';
 
 class ReviewFood extends StatefulWidget {
   const ReviewFood({Key? key}) : super(key: key);
@@ -11,16 +13,17 @@ class ReviewFood extends StatefulWidget {
   State<ReviewFood> createState() => _ReviewFoodState();
 }
 
-List<RatingProduk> rate = [
-  RatingProduk('Sate Ayam', 3),
-  RatingProduk('Sate Kambing', 5),
-];
+// List<RatingProduk> rate = [
+//   RatingProduk('Sate Ayam', 3),
+//   RatingProduk('Sate Kambing', 5),
+// ];
 
 class _ReviewFoodState extends State<ReviewFood> {
   double rating = 0;
 
   @override
   Widget build(BuildContext context) {
+    StatusProvider _rate = Provider.of<StatusProvider>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -77,14 +80,15 @@ class _ReviewFoodState extends State<ReviewFood> {
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
-                        FoodRate(rate[index].nama, rate[index].rate),
+                        FoodRate(
+                            _rate.foodrate[index].nama, rating, index, _rate),
                         SizedBox(
                           height: 20,
                         ),
                       ],
                     );
                   },
-                  itemCount: rate.length,
+                  itemCount: _rate.foodrate.length,
                   shrinkWrap: true,
                   separatorBuilder: (BuildContext context, int index) =>
                       Divider(),
@@ -120,7 +124,8 @@ class _ReviewFoodState extends State<ReviewFood> {
     );
   }
 
-  Widget FoodRate(String foodname, double rating) {
+  Widget FoodRate(
+      String foodname, double rating, int index, StatusProvider rate) {
     return Column(
       children: [
         Text(
@@ -156,7 +161,10 @@ class _ReviewFoodState extends State<ReviewFood> {
           ),
           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
           onRatingUpdate: (rating) {
-            print(rating);
+            rate.foodRateChange(rating, index);
+            print(rate.foodrate[index].nama +
+                " rate = " +
+                rate.foodrate[index].rate.toString());
           },
         ),
       ],
