@@ -19,6 +19,7 @@ class _HistoryState extends State<History> {
   void initState() {
     StatusProvider _stat = Provider.of<StatusProvider>(context, listen: false);
     _stat.loadData();
+    _stat.loadDataRate();
     super.initState();
   }
 
@@ -241,7 +242,7 @@ class _HistoryState extends State<History> {
                       height: 30,
                       onPressed: () {
                         //TODO: passing idresto,idprod,restoname, prodname
-                        stat.loadDataRate();
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(

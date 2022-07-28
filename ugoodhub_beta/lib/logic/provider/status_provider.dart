@@ -17,14 +17,6 @@ class StatusProvider extends ChangeNotifier {
   List<RateModel> get restorate => _restorate;
   List<RateModel> get foodrate => _foodrate;
 
-  set restorate(List<RateModel> value) {
-    _restorate = value;
-  }
-
-  set foodrate(List<RateModel> value) {
-    _foodrate = value;
-  }
-
   void loadData() async {
     Future<List<StatusModel>> stat = StatusApi.getStatus();
     List<StatusModel> _list = await stat;
@@ -37,6 +29,8 @@ class StatusProvider extends ChangeNotifier {
         _listworking.add(list);
       }
     }
+    print(_listdone);
+    print(_listworking);
     notifyListeners();
     return;
   }
@@ -44,6 +38,8 @@ class StatusProvider extends ChangeNotifier {
   void loadDataRate() async {
     Future<List<RateModel>> rate = RateApi.getRate();
     List<RateModel> _listrate = await rate;
+    _restorate = [];
+    _foodrate = [];
     for (var list in _listrate) {
       if (list.ratetype == "resto") {
         _restorate.add(list);
@@ -51,6 +47,8 @@ class StatusProvider extends ChangeNotifier {
         _foodrate.add(list);
       }
     }
+    print(_restorate);
+    print(_foodrate);
     notifyListeners();
     return;
   }
