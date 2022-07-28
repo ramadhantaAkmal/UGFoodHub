@@ -64,11 +64,11 @@ class StatusProvider extends ChangeNotifier {
   }
 
   void foodRateChange(double rate, int index) {
-    _restorate[index] = RateModel(
-        idrate: _restorate[index].idrate,
-        restaurantid: _restorate[index].restaurantid,
-        nama: _restorate[index].nama,
-        ratetype: _restorate[index].ratetype,
+    _foodrate[index] = RateModel(
+        idrate: _foodrate[index].idrate,
+        restaurantid: _foodrate[index].restaurantid,
+        nama: _foodrate[index].nama,
+        ratetype: _foodrate[index].ratetype,
         rate: rate);
     notifyListeners();
   }

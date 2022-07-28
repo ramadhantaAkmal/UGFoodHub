@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class RateModel {
   final String idrate;
   final int restaurantid;
