@@ -4,20 +4,20 @@
         "restaurantid": 1,
         "nama": "Sate Bakar Pak Ali",
         "ratetype": "resto",
-        "rate": 0
+        "rate": 0.0
     },
     {
         "idrate": "rt124",
         "restaurantid": 1,
         "nama": "Sate Ayam",
         "ratetype": "food",
-        "rate": 0
+        "rate": 0.0
     },
     {
         "idrate": "rt125",
         "restaurantid": 1,
         "nama": "Sate Kambing",
         "ratetype": "food",
-        "rate": 0
+        "rate": 0.0
     }
 ]

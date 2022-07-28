@@ -17,7 +17,7 @@ class RateModel {
 
   static RateModel fromJson(json) => RateModel(
         idrate: json['idrate'],
-        restaurantid: json['restoid'],
+        restaurantid: json['restaurantid'],
         nama: json['nama'],
         ratetype: json['ratetype'],
         rate: json['rate'],
