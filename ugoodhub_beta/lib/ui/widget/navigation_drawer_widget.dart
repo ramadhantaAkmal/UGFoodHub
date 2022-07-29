@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, prefer_const_declarations
 
+import 'dart:io';
+
 import 'package:flutter/Material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ug_foodhub/logic/provider/profile_provider.dart';
@@ -51,6 +54,12 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   @override
   Widget build(BuildContext context) {
     ProfileProvider _prof = Provider.of<ProfileProvider>(context, listen: true);
+    ImageProvider _image;
+    if (_prof.imageFile == null) {
+      _image = AssetImage('assets/images/emptyAvatar.png');
+    } else {
+      _image = FileImage(File(_prof.imageFile!.path));
+    }
 
     return ClipRRect(
       borderRadius: BorderRadius.horizontal(right: Radius.circular(30.0)),
@@ -64,7 +73,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
               padding: padding,
               children: <Widget>[
                 buildHeader(
-                  image: _prof.image,
+                  image: _image,
                   nama: _prof.nama,
                   email: _prof.email,
                   context: context,
@@ -98,6 +107,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                     ),
                     buildLogOut(
                       onPressed: () {
+                        _prof.imageFile = null;
                         removeAll();
                         saveData();
                         Navigator.pushReplacement(context,
@@ -166,7 +176,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
   }
 
   Widget buildHeader({
-    required String? image,
+    required ImageProvider image,
     required String nama,
     required String email,
     required BuildContext context,
@@ -179,11 +189,7 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                    radius: 40,
-                    backgroundImage: AssetImage(
-                      image ?? "assets/images/emptyAvatar.png",
-                    )),
+                CircleAvatar(radius: 40, backgroundImage: image),
                 Spacer(),
                 Container(
                   padding: const EdgeInsets.all(1),

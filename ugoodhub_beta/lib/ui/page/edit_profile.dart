@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/Material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:ug_foodhub/ui/page/home_page.dart';
 
 import '../../logic/provider/profile_provider.dart';
 
@@ -16,9 +17,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  PickedFile? _imageFile;
-  final ImagePicker _picker = ImagePicker();
-
   late TextEditingController _namaController;
   late TextEditingController _emailController;
   late TextEditingController _noWaController;
@@ -48,10 +46,10 @@ class _EditProfileState extends State<EditProfile> {
     double picsize = 90;
 
     ImageProvider image;
-    if (_imageFile == null) {
+    if (_prof.imageFileTemp == null) {
       image = AssetImage('assets/images/emptyAvatar.png');
     } else {
-      image = FileImage(File(_imageFile!.path));
+      image = FileImage(File(_prof.imageFileTemp!.path));
     }
 
     return SafeArea(
@@ -135,7 +133,7 @@ class _EditProfileState extends State<EditProfile> {
                                     // isScrollControlled: false,
                                     // isDismissible: false,
                                     builder: (BuildContext context) {
-                                      return showImageSource();
+                                      return showImageSource(_prof);
                                     });
                               },
                             ),
@@ -267,6 +265,8 @@ class _EditProfileState extends State<EditProfile> {
                     onPressed: () {
                       _prof.setProfile(_namaController.text,
                           _emailController.text, null, _noWaController.text);
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => HomePage()));
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28.0),
@@ -290,7 +290,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget showImageSource() {
+  Widget showImageSource(ProfileProvider prof) {
     return Container(
       height: 120,
       margin: EdgeInsets.all(10),
@@ -300,24 +300,24 @@ class _EditProfileState extends State<EditProfile> {
               leading: Icon(Icons.camera_alt),
               title: Text('Camera'),
               onTap: () {
-                takePhoto(ImageSource.camera);
+                prof.takePhoto(ImageSource.camera);
               }),
           ListTile(
               leading: Icon(Icons.image),
               title: Text('Gallery'),
               onTap: () {
-                takePhoto(ImageSource.gallery);
+                prof.takePhoto(ImageSource.gallery);
               })
         ],
       ),
     );
   }
 
-  void takePhoto(ImageSource source) async {
-    final pickedFile = await _picker.pickImage(source: source);
+  // void takePhoto(ImageSource source) async {
+  //   final pickedFile = await _picker.pickImage(source: source);
 
-    setState(() {
-      this._imageFile = pickedFile as PickedFile;
-    });
-  }
+  //   setState(() {
+  //     this._imageFile = pickedFile as PickedFile;
+  //   });
+  // }
 }
