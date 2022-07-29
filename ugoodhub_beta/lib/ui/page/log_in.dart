@@ -1,10 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:provider/provider.dart';
 import 'package:ug_foodhub/model/account_model.dart';
-import '../../logic/bloc/product/product_bloc.dart';
-import '../../logic/bloc/restaurant/restaurant_bloc.dart';
+
 import '../../logic/provider/login_provider.dart';
 import 'sign_up.dart';
 import 'home_page.dart';
@@ -334,18 +333,7 @@ class _LogInState extends State<LogIn> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) =>
-                        RestaurantBloc()..add(LoadRestaurant()),
-                  ),
-                  BlocProvider(
-                    create: (context) => ProductBloc()..add(LoadProduct()),
-                  ),
-                ],
-                child: HomePage(),
-              );
+              return HomePage();
             },
           ),
         );

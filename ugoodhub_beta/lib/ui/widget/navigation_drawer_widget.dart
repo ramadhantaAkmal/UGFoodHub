@@ -4,8 +4,8 @@ import 'package:flutter/Material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ug_foodhub/logic/provider/profile_provider.dart';
+import 'package:ug_foodhub/ui/page/log_in.dart';
 
-import 'package:ug_foodhub/ui/page/onboarding_page.dart';
 import '../page/edit_profile.dart';
 import '../page/history_page.dart';
 
@@ -100,10 +100,8 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
                       onPressed: () {
                         removeAll();
                         saveData();
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OnboardingPage()));
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => LogIn()));
                       },
                     ),
                   ],

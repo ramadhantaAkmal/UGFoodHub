@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ug_foodhub/logic/provider/login_provider.dart';
 import 'package:ug_foodhub/ui/page/home_page.dart';
+import 'package:ug_foodhub/ui/page/log_in.dart';
 
-import 'logic/bloc/product/product_bloc.dart';
-import 'logic/bloc/restaurant/restaurant_bloc.dart';
 import 'logic/provider/cart_provider.dart';
 import 'logic/provider/profile_provider.dart';
 import 'logic/provider/status_provider.dart';
-import 'ui/page/onboarding_page.dart';
 
 Future<void> main() async {
   //
@@ -52,21 +50,7 @@ class UGFoodHub extends StatelessWidget {
           ],
           child: MaterialApp(
               theme: ThemeData(fontFamily: "Poppins"),
-              home: (isLoggedIn)
-                  ? MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (context) =>
-                              RestaurantBloc()..add(LoadRestaurant()),
-                        ),
-                        BlocProvider(
-                          create: (context) =>
-                              ProductBloc()..add(LoadProduct()),
-                        ),
-                      ],
-                      child: HomePage(),
-                    )
-                  : OnboardingPage()),
+              home: (isLoggedIn) ? HomePage() : LogIn()),
         );
       },
     );
