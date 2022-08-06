@@ -16,6 +16,8 @@ class PaymentConfirmPage extends StatelessWidget {
     final backgroundColor = Colors.white;
     CartProvider _order = Provider.of<CartProvider>(context, listen: false);
     var _orderData = _order.orders;
+    String _restoName = "UG Foodcourt";
+    String _noWa = "089761272";
 
     return SafeArea(
       child: Scaffold(
@@ -89,7 +91,7 @@ class PaymentConfirmPage extends StatelessWidget {
                 height: 20,
               ),
               Text(
-                'UG Foodcourt',
+                _restoName,
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
@@ -97,7 +99,7 @@ class PaymentConfirmPage extends StatelessWidget {
                 ),
               ),
               Text(
-                '089761272',
+                _noWa,
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',

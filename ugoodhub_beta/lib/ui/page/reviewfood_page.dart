@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import '../../logic/provider/status_provider.dart';
-import '../../model/rate_model.dart';
 
 class ReviewFood extends StatefulWidget {
   const ReviewFood({Key? key}) : super(key: key);
@@ -12,11 +11,6 @@ class ReviewFood extends StatefulWidget {
   @override
   State<ReviewFood> createState() => _ReviewFoodState();
 }
-
-// List<RatingProduk> rate = [
-//   RatingProduk('Sate Ayam', 3),
-//   RatingProduk('Sate Kambing', 5),
-// ];
 
 class _ReviewFoodState extends State<ReviewFood> {
   double rating = 0;
