@@ -1,16 +1,24 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_constructors
 
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../logic/provider/cart_provider.dart';
 
-class PaymentConfirmPage extends StatelessWidget {
+class PaymentConfirmPage extends StatefulWidget {
   final String pilihan;
 
   PaymentConfirmPage({required this.pilihan, Key? key}) : super(key: key);
 
+  @override
+  State<PaymentConfirmPage> createState() => _PaymentConfirmPageState();
+}
+
+class _PaymentConfirmPageState extends State<PaymentConfirmPage> {
+  XFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     final backgroundColor = Colors.white;
@@ -80,7 +88,7 @@ class PaymentConfirmPage extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                pilihan,
+                widget.pilihan,
                 style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
@@ -122,7 +130,9 @@ class PaymentConfirmPage extends StatelessWidget {
                 height: 20,
               ),
               InkWell(
-                onTap: (() {}),
+                onTap: (() {
+                  takePhoto();
+                }),
                 child: Container(
                   padding: EdgeInsets.all(7),
                   decoration: BoxDecoration(
@@ -179,5 +189,11 @@ class PaymentConfirmPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void takePhoto() {
+    setState(() async {
+      _imageFile = await _picker.pickImage(source: ImageSource.gallery);
+    });
   }
 }

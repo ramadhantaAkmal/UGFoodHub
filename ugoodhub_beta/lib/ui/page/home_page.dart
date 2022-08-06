@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:ug_foodhub/ui/page/cart_page.dart';
 
-import '../widget/filter_drawer_widget.dart';
 import '../widget/navigation_drawer_widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -26,22 +25,6 @@ class HomePage extends StatelessWidget {
         drawerScrimColor: Colors.transparent,
         drawer: Container(
           child: NavigationDrawerWidget(),
-          decoration: BoxDecoration(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(30.0),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.orangeAccent.withOpacity(0.5),
-                spreadRadius: 10,
-                blurRadius: 20,
-                offset: const Offset(0.5, 0),
-              ),
-            ],
-          ),
-        ),
-        endDrawer: Container(
-          child: FilterDrawerWidget(),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(
               Radius.circular(30.0),
@@ -96,66 +79,6 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
-
-              //SEARCH BAR
-              Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: Row(
-                  children: [
-                    Flexible(
-                        child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Temukan produk favoritmu",
-                          isDense: true,
-                          fillColor: Colors.amber,
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Colors.deepOrange, width: 2.0),
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          focusColor: Colors.deepOrange,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          suffixIcon: Icon(
-                            Icons.search_rounded,
-                            color: Colors.primaries.first,
-                          )),
-                    )),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Material(
-                      clipBehavior: Clip.antiAlias,
-                      shadowColor: Color.fromARGB(120, 0, 0, 0),
-                      elevation: 3,
-                      borderRadius: BorderRadius.circular(16),
-                      child: IconButton(
-                          iconSize: 25,
-                          onPressed: () {
-                            _key.currentState?.openEndDrawer();
-                          },
-                          icon: Icon(
-                            Icons.tune_rounded,
-                            color: Color(0xffFE724C),
-                          )),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-
-              // Restaurant Populer
-              SizedBox(
-                height: 5,
-              ),
-
-              SizedBox(height: 20),
             ],
           ),
         ),
