@@ -312,12 +312,4 @@ class _EditProfileState extends State<EditProfile> {
       ),
     );
   }
-
-  // void takePhoto(ImageSource source) async {
-  //   final pickedFile = await _picker.pickImage(source: source);
-
-  //   setState(() {
-  //     this._imageFile = pickedFile as PickedFile;
-  //   });
-  // }
 }

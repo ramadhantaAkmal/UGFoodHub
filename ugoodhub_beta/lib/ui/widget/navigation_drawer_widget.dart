@@ -3,7 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/Material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ug_foodhub/logic/provider/profile_provider.dart';

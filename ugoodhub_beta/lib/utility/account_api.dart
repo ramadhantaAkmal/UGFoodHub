@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 class AccountApi {
   static Future<List<AccountModel>> getUsers() async {
     String url =
-        'https://raw.githubusercontent.com/ramadhantaAkmal/apistore/main/dummy_account.json';
+        'https://raw.githubusercontent.com/ramadhantaAkmal/SkripsiProject/main/ugoodhub_beta/assets/dummy_account.json';
     Uri a = Uri.parse(url);
     final response = await http.get(a);
     final body = json.decode(response.body);
