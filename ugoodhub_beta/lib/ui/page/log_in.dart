@@ -339,12 +339,10 @@ class _LogInState extends State<LogIn> {
         );
       }
     } catch (e) {
-      print(e);
       showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
           title: const Text('Terdapat kesalahan'),
-          //content: const Text('AlertDialog description'),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
