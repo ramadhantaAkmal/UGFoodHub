@@ -12,7 +12,7 @@ class CartProvider extends ChangeNotifier {
   int _jasa = 3000;
   int _sum = 0;
 
-  List<CartModel> _products = [];
+  List<CartModel>? _products = [];
   List<OrderModel> _orders = [];
   List<int> _restoid = [];
   List<int> _productid = [];
@@ -21,7 +21,7 @@ class CartProvider extends ChangeNotifier {
   int get subsum => _subsum;
   int get jasa => _jasa;
   int get sum => _sum;
-  List<CartModel> get products => _products;
+  List<CartModel> get products => _products!;
   List<OrderModel> get orders => _orders;
 
   set subsum(int value) {
@@ -38,7 +38,7 @@ class CartProvider extends ChangeNotifier {
 
   void loadData() async {
     _products = await ProductApi.getProduct();
-    initSum(_products);
+    initSum(_products!);
     notifyListeners();
   }
 
@@ -49,7 +49,7 @@ class CartProvider extends ChangeNotifier {
     _productid = [];
     _desc = [];
 
-    for (var cart in _products) {
+    for (var cart in _products!) {
       _restoid.add(cart.restaurantid);
       _productid.add(cart.productid);
       _desc.add(cart.desc);
@@ -67,12 +67,18 @@ class CartProvider extends ChangeNotifier {
   }
 
   void removeItem(int index) {
-    products.removeAt(index);
-    subsum = products
-        .map((e) => e.totalHargaProduk)
-        .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
-    sum = subsum + jasa;
-    notifyListeners();
+    try {
+      products.removeAt(index);
+      subsum = products
+          .map((e) => e.totalHargaProduk)
+          .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
+      sum = subsum + jasa;
+      notifyListeners();
+    } catch (e) {
+      subsum = 0;
+      sum = 0;
+      notifyListeners();
+    }
   }
 
   void addItem(int index) {
