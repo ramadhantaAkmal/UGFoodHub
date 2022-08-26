@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_declarations, prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ug_foodhub/ui/page/dummy_home_page.dart';
 
 import '../../logic/provider/cart_provider.dart';
 
@@ -142,14 +145,18 @@ class _PaymentConfirmPageState extends State<PaymentConfirmPage> {
                   ),
                   width: MediaQuery.of(context).size.width,
                   height: 400,
-                  child: Text(
-                    'Upload bukti bayar disini',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
+                  child: _imageFile == null
+                      ? Text(
+                          'Upload bukti bayar disini',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : Image.file(
+                          File(_imageFile!.path),
+                        ),
                 ),
               ),
               SizedBox(
@@ -170,6 +177,14 @@ class _PaymentConfirmPageState extends State<PaymentConfirmPage> {
                     print('metode: ' + orders.metode);
                     print('buktibayar: img');
                   }
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return HomePage();
+                      },
+                    ),
+                  );
                 },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(28.0),
@@ -191,9 +206,8 @@ class _PaymentConfirmPageState extends State<PaymentConfirmPage> {
     );
   }
 
-  void takePhoto() {
-    setState(() async {
-      _imageFile = await _picker.pickImage(source: ImageSource.gallery);
-    });
+  void takePhoto() async {
+    _imageFile = await _picker.pickImage(source: ImageSource.gallery);
+    setState(() {});
   }
 }

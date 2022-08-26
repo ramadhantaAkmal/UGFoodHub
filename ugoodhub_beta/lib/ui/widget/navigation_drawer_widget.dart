@@ -31,11 +31,13 @@ class _NavigationDrawerWidgetState extends State<NavigationDrawerWidget> {
     try {
       ProfileProvider _prof =
           Provider.of<ProfileProvider>(context, listen: false);
-      SharedPreferences.getInstance().then((prefs) {
-        _prof.setProfile(prefs.getString("nama")!, prefs.getString("email")!,
-            prefs.getString("image")!, prefs.getString("noWa")!);
-        super.initState();
-      });
+      SharedPreferences.getInstance().then(
+        (prefs) {
+          _prof.setProfile(prefs.getString("nama")!, prefs.getString("email")!,
+              prefs.getString("image")!, prefs.getString("noWa")!);
+          super.initState();
+        },
+      );
     } catch (e) {
       print(e);
     }

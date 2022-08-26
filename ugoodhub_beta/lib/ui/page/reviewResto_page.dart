@@ -8,7 +8,6 @@ import 'reviewfood_page.dart';
 
 class ReviewResto extends StatefulWidget {
   const ReviewResto({Key? key}) : super(key: key);
-
   @override
   State<ReviewResto> createState() => _ReviewRestoState();
 }
@@ -17,7 +16,7 @@ class _ReviewRestoState extends State<ReviewResto> {
   @override
   Widget build(BuildContext context) {
     StatusProvider _rate = Provider.of<StatusProvider>(context, listen: true);
-    double rating = 0;
+    int rating = 0;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -86,7 +85,7 @@ class _ReviewRestoState extends State<ReviewResto> {
                   height: 30,
                 ),
                 RatingBar(
-                  initialRating: rating,
+                  initialRating: 1.0,
                   direction: Axis.horizontal,
                   allowHalfRating: false,
                   itemCount: 5,
@@ -106,7 +105,7 @@ class _ReviewRestoState extends State<ReviewResto> {
                   ),
                   itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
                   onRatingUpdate: (rating) {
-                    _rate.restoRateChange(rating);
+                    _rate.restoRateChange(rating.toInt());
                     print(_rate.restorate[0].nama +
                         " rate = " +
                         _rate.restorate[0].rate.toString());

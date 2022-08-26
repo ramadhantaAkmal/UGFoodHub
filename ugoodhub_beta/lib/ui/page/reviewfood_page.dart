@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:ug_foodhub/ui/page/history_page.dart';
 import '../../logic/provider/status_provider.dart';
 
 class ReviewFood extends StatefulWidget {
@@ -13,7 +14,7 @@ class ReviewFood extends StatefulWidget {
 }
 
 class _ReviewFoodState extends State<ReviewFood> {
-  double rating = 0;
+  int rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,16 @@ class _ReviewFoodState extends State<ReviewFood> {
                   padding: const EdgeInsets.symmetric(horizontal: 46),
                   child: MaterialButton(
                     minWidth: 250,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return History();
+                          },
+                        ),
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28.0),
                     ),
@@ -118,8 +128,7 @@ class _ReviewFoodState extends State<ReviewFood> {
     );
   }
 
-  Widget FoodRate(
-      String foodname, double rating, int index, StatusProvider rate) {
+  Widget FoodRate(String foodname, int rating, int index, StatusProvider rate) {
     return Column(
       children: [
         Text(
@@ -135,7 +144,7 @@ class _ReviewFoodState extends State<ReviewFood> {
           height: 30,
         ),
         RatingBar(
-          initialRating: rating,
+          initialRating: 1.0,
           direction: Axis.horizontal,
           allowHalfRating: false,
           itemCount: 5,
@@ -155,7 +164,7 @@ class _ReviewFoodState extends State<ReviewFood> {
           ),
           itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
           onRatingUpdate: (rating) {
-            rate.foodRateChange(rating, index);
+            rate.foodRateChange(rating.toInt(), index);
             print(rate.foodrate[index].nama +
                 " rate = " +
                 rate.foodrate[index].rate.toString());

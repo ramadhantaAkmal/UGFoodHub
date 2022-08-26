@@ -11,8 +11,18 @@ class AccountApi {
     final body = json.decode(response.body);
     return body.map<AccountModel>(AccountModel.fromJson).toList();
   }
+}
 
-  // static Future<List<AccountModel>> getUsersLocally(
+
+
+
+
+
+
+
+
+
+// static Future<List<AccountModel>> getUsersLocally(
   //     BuildContext context) async {
   //   final assetBundle = DefaultAssetBundle.of(context);
   //   final data = await assetBundle.loadString('assets/dummy_account.json');
@@ -20,4 +30,3 @@ class AccountApi {
 
   //   return body.map<AccountModel>(AccountModel.fromJson).toList();
   // }
-}

@@ -3,7 +3,7 @@ class RateModel {
   final int restaurantid;
   final String nama;
   final String ratetype;
-  double rate;
+  int rate;
 
   RateModel({
     required this.idrate,

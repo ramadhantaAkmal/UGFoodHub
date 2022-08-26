@@ -65,7 +65,6 @@ class LoginProvider with ChangeNotifier {
   }) {
     for (var user in _list) {
       //AccountModel user;
-
       try {
         user = _list.firstWhere((element) => element.username == username);
       } catch (e) {
@@ -100,18 +99,4 @@ class LoginProvider with ChangeNotifier {
     await pref.setString('image', image);
     await pref.setBool('isLoggedin', isLoggedin);
   }
-
-// if (username.compareTo(user.username) != 0) {
-//         _msg = "User tidak ditemukan";
-//         notifyListeners();
-//         return;
-//       } else if (password.compareTo(user.password) != 0) {
-//         _msg = "Password Salah";
-//         notifyListeners();
-//         return;
-//       } else {
-//         _msg = "default";
-//         notifyListeners();
-//         return;
-//       }
 }

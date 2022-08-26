@@ -6,7 +6,7 @@ import 'package:ug_foodhub/model/account_model.dart';
 
 import '../../logic/provider/login_provider.dart';
 import 'sign_up.dart';
-import 'home_page.dart';
+import 'dummy_home_page.dart';
 
 class LogIn extends StatefulWidget {
   @override
@@ -130,9 +130,7 @@ class _LogInState extends State<LogIn> {
                       SizedBox(
                         height: 20,
                       ),
-
                       //Log-in form text field group
-
                       Text(
                         'E-mail',
                         style: TextStyle(
@@ -310,11 +308,11 @@ class _LogInState extends State<LogIn> {
     try {
       if (form!.validate()) {
         /**
-         * for loops used for accesing data from list
-         the username.compareTo and password.compareTo will pick the choosen account
-         and if all conditions true, the code will set id, nama, and email based on the choosen account
-         isLoggedin set to opposite of it`s value
-         saveData() used to save the data to shared preferences 
+         * for loops dipakai untuk mengakses data dari list
+          username.compareTo dan password.compareTo akan mengambil akun yang dipilih
+         dan jika semua kondisi true, maka code akan menge-set id, nama, dan email berdasarkan akun yang dipilih
+         lalu isLoggedin di set ke nilai berlawanan 
+         saveData() dipakai untuk menyimpan data ke shared preferences
          */
         for (var user in account!) {
           if (username.compareTo(user.username) == 0) {

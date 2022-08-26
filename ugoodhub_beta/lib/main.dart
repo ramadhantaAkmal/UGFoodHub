@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:ug_foodhub/logic/provider/login_provider.dart';
-import 'package:ug_foodhub/ui/page/home_page.dart';
+import 'package:ug_foodhub/ui/page/dummy_home_page.dart';
 import 'package:ug_foodhub/ui/page/log_in.dart';
 
 import 'logic/provider/cart_provider.dart';

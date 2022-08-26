@@ -53,7 +53,7 @@ class StatusProvider extends ChangeNotifier {
     return;
   }
 
-  void restoRateChange(double rate) {
+  void restoRateChange(int rate) {
     _restorate[0] = RateModel(
         idrate: _restorate[0].idrate,
         restaurantid: _restorate[0].restaurantid,
@@ -63,7 +63,7 @@ class StatusProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void foodRateChange(double rate, int index) {
+  void foodRateChange(int rate, int index) {
     _foodrate[index] = RateModel(
         idrate: _foodrate[index].idrate,
         restaurantid: _foodrate[index].restaurantid,

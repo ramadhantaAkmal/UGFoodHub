@@ -42,25 +42,6 @@ class CartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void orderSet(String metode) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    _orders = [];
-    _restoid = [];
-    _productid = [];
-    _desc = [];
-
-    for (var cart in _products!) {
-      _restoid.add(cart.restaurantid);
-      _productid.add(cart.productid);
-      _desc.add(cart.desc);
-    }
-
-    _orders.add(OrderModel('ORDR1234', pref.getInt('id'), _restoid, _productid,
-        _desc, _sum, metode));
-
-    notifyListeners();
-  }
-
   void initSum(List<CartModel> products) {
     subsum = products.map((e) => e.harga).reduce((n1, n2) => n1 + n2);
     sum = subsum + jasa;
@@ -99,20 +80,34 @@ class CartProvider extends ChangeNotifier {
   }
 
   void reduceItem(int index) {
-    // abaikan jika quantity 1
     if (products[index].quantity == 1) {
       return;
     }
 
-    // kurangin 1 item ke produk[index]
     products[index].quantity--;
 
-    // trus update subsum
     subsum = products
         .map((e) => e.totalHargaProduk)
         .reduce((nilaiTotal, nilaiSekarang) => nilaiTotal + nilaiSekarang);
 
     sum = subsum + jasa;
+    notifyListeners();
+  }
+
+  void orderSet(String metode) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    _orders = [];
+    _restoid = [];
+    _productid = [];
+    _desc = [];
+
+    for (var cart in _products!) {
+      _restoid.add(cart.restaurantid);
+      _productid.add(cart.productid);
+      _desc.add(cart.desc);
+    }
+    _orders.add(OrderModel('ORDR1234', pref.getInt('id'), _restoid, _productid,
+        _desc, _sum, metode));
     notifyListeners();
   }
 }

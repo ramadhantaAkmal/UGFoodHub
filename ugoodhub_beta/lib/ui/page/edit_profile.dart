@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/Material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:ug_foodhub/ui/page/home_page.dart';
+import 'package:ug_foodhub/ui/page/dummy_home_page.dart';
 
 import '../../logic/provider/profile_provider.dart';
 
