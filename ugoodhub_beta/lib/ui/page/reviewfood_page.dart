@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import 'package:ug_foodhub/logic/provider/rate_provider.dart';
 import 'package:ug_foodhub/ui/page/history_page.dart';
 import '../../logic/provider/status_provider.dart';
 
@@ -18,7 +19,7 @@ class _ReviewFoodState extends State<ReviewFood> {
 
   @override
   Widget build(BuildContext context) {
-    StatusProvider _rate = Provider.of<StatusProvider>(context, listen: true);
+    RateProvider _rate = Provider.of<RateProvider>(context, listen: true);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -128,7 +129,7 @@ class _ReviewFoodState extends State<ReviewFood> {
     );
   }
 
-  Widget FoodRate(String foodname, int rating, int index, StatusProvider rate) {
+  Widget FoodRate(String foodname, int rating, int index, RateProvider rate) {
     return Column(
       children: [
         Text(

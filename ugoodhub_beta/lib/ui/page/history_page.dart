@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:ug_foodhub/logic/provider/rate_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../logic/provider/status_provider.dart';
 import '../../model/status_model.dart';
 import 'reviewresto_page.dart';
@@ -17,16 +19,13 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   @override
   void initState() {
-    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: false);
-    _stat.loadData();
-    _stat.loadDataRate();
+    RateProvider _rate = Provider.of<RateProvider>(context, listen: false);
+    _rate.loadDataRate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: true);
-
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -133,34 +132,70 @@ class _HistoryState extends State<History> {
                     height: 550,
                     child: TabBarView(
                       children: [
-                        //berjalan
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                buildWorking(_stat.listworking, index),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                        ///berjalan
+
+                        StreamBuilder<List<StatusModel>>(
+                          stream: StatusProvider().loadStream(),
+                          builder: (context, statusModels) {
+                            final filtered = statusModels.data!
+                                .where((e) => e.status != "Selesai")
+                                .toList();
+
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    statusModels.connectionState ==
+                                            ConnectionState.waiting
+                                        ? Center(
+                                            child: CircularProgressIndicator())
+                                        : buildWorking(
+                                            filtered,
+                                            index,
+                                          ),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
                             );
                           },
-                          itemCount: _stat.listworking.length,
-                          shrinkWrap: true,
                         ),
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                buildDone(_stat.listdone, index, _stat),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+
+                        /// selesai
+                        Consumer<List<StatusModel>>(
+                          builder: (context, statusModels, _) {
+                            final filtered = statusModels
+                                .where((e) => e.status == "Selesai")
+                                .toList();
+
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    context.debugDoingBuild
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.amber[800],
+                                            ),
+                                          )
+                                        : buildDone(
+                                            filtered,
+                                            index,
+                                          ),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
                             );
                           },
-                          itemCount: _stat.listdone.length,
-                          shrinkWrap: true,
                         ),
                       ],
                     ),
@@ -180,7 +215,7 @@ class _HistoryState extends State<History> {
     if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
   }
 
-  Widget buildDone(List<StatusModel> statlist, int index, StatusProvider stat) {
+  Widget buildDone(List<StatusModel> statlist, int index) {
     return Card(
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -241,8 +276,6 @@ class _HistoryState extends State<History> {
                       minWidth: 0.1,
                       height: 30,
                       onPressed: () {
-                        //TODO: passing idresto,idprod,restoname, prodname
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
