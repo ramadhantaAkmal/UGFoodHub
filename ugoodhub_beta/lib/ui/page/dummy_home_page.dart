@@ -7,11 +7,6 @@ import 'package:ug_foodhub/ui/page/cart_page.dart';
 import '../widget/navigation_drawer_widget.dart';
 
 class HomePage extends StatelessWidget {
-  final PageController restaurantController =
-      PageController(initialPage: 0, viewportFraction: 0.75);
-  final PageController productController =
-      PageController(initialPage: 0, viewportFraction: 0.51);
-
   HomePage({Key? key}) : super(key: key);
 
   /// `_key` variable is for drawer and enddrawer
