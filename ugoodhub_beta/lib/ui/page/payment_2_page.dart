@@ -166,6 +166,26 @@ class _PaymentConfirmPageState extends State<PaymentConfirmPage> {
                 height: 50,
                 minWidth: 300,
                 onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        "Order Telah Dikirim",
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      margin: EdgeInsets.only(
+                        bottom: 50.0,
+                        left: 20,
+                        right: 20,
+                      ),
+                      duration: Duration(milliseconds: 2000),
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.deepOrange,
+                      elevation: 10,
+                    ),
+                  );
                   //TODO: implementasi fungsi tombol akan diubah menjadi fungsi mengirim data ke backend jika sudah ada
                   for (var orders in _orderData) {
                     print('orderid: ' + orders.orderid);

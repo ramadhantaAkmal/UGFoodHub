@@ -211,18 +211,24 @@ class _CartState extends State<Cart> {
                         ),
                       );
                     } else {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Keranjang kosong'),
-                          content: const Text(
-                              'Pelanggan belum menambahkan makanan atau minuman kedalam keranjang'),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'OK'),
-                              child: const Text('OK'),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Pelanggan belum menambahkan makanan atau minuman kedalam keranjang',
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
                             ),
-                          ],
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          margin: EdgeInsets.only(
+                            bottom: 200.0,
+                            left: 20,
+                            right: 20,
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.deepOrange,
+                          elevation: 10,
                         ),
                       );
                     }

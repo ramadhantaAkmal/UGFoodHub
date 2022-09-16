@@ -263,10 +263,34 @@ class _EditProfileState extends State<EditProfile> {
                   padding: const EdgeInsets.symmetric(horizontal: 35),
                   child: MaterialButton(
                     onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Profil Berhasil Diubah",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          margin: EdgeInsets.only(
+                            bottom: 50.0,
+                            left: 20,
+                            right: 20,
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.deepOrange,
+                          elevation: 10,
+                        ),
+                      );
                       _prof.setProfile(_namaController.text,
                           _emailController.text, null, _noWaController.text);
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => HomePage()));
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomePage(),
+                        ),
+                      );
                     },
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(28.0),

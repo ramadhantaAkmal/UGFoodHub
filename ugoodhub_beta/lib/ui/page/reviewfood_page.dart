@@ -98,6 +98,27 @@ class _ReviewFoodState extends State<ReviewFood> {
                   child: MaterialButton(
                     minWidth: 250,
                     onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Review Telah Dikirim",
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          margin: EdgeInsets.only(
+                            bottom: 50.0,
+                            left: 20,
+                            right: 20,
+                          ),
+                          duration: Duration(milliseconds: 2000),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: Colors.deepOrange,
+                          elevation: 10,
+                        ),
+                      );
+
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
