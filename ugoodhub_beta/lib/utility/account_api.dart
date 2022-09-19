@@ -5,21 +5,14 @@ import 'package:http/http.dart' as http;
 class AccountApi {
   static Future<List<AccountModel>> getUsers() async {
     String url =
-        'https://api.jsonbin.io/v3/b/62f530585c146d63ca6995e7?meta=false';
+        'https://raw.githubusercontent.com/ramadhantaAkmal/SkripsiProject/main/ugoodhub_beta/assets/dummy_account.json';
     Uri a = Uri.parse(url);
     final response = await http.get(a);
     final body = json.decode(response.body);
+
     return body.map<AccountModel>(AccountModel.fromJson).toList();
   }
 }
-
-
-
-
-
-
-
-
 
 
 // static Future<List<AccountModel>> getUsersLocally(

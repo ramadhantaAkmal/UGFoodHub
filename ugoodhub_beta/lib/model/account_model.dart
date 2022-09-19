@@ -7,7 +7,7 @@ class AccountModel {
   final String username;
   final String password;
 
-  AccountModel({
+  const AccountModel({
     required this.id,
     required this.nama,
     required this.email,

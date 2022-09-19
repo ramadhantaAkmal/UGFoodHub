@@ -4,6 +4,7 @@
         "nama": "Customer 1",
         "email": "customer1@gmail.com",
         "noWa": "0812345678",
+        "image": "https://raw.githubusercontent.com/ramadhantaAkmal/SkripsiProject/main/ugoodhub_beta/assets/images/emptyAvatar.png",
         "username": "usersatu@gmail.com",
         "password": "pass1"
     },
@@ -12,6 +13,7 @@
         "nama": "Customer 2",
         "email": "customer2@gmail.com",
         "noWa": "0812345678",
+        "image": "https://raw.githubusercontent.com/ramadhantaAkmal/SkripsiProject/main/ugoodhub_beta/assets/images/emptyAvatar.png",
         "username": "userdua@gmail.com",
         "password": "pass2"
     }
