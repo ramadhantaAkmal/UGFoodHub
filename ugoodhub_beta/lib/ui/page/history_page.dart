@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'package:ug_foodhub/logic/provider/rate_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../../logic/provider/status_provider.dart';
-import '../../model/status_model.dart';
+
+import 'package:ug_foodhub/model/status_model.dart';
 import 'reviewresto_page.dart';
 
 class History extends StatefulWidget {
@@ -17,16 +20,13 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   @override
   void initState() {
-    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: false);
-    _stat.loadData();
-    _stat.loadDataRate();
+    RateProvider _rate = Provider.of<RateProvider>(context, listen: false);
+    _rate.loadDataRate();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    StatusProvider _stat = Provider.of<StatusProvider>(context, listen: true);
-
     return SafeArea(
       child: DefaultTabController(
         length: 2,
@@ -133,34 +133,66 @@ class _HistoryState extends State<History> {
                     height: 550,
                     child: TabBarView(
                       children: [
-                        //berjalan
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                buildWorking(_stat.listworking, index),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+                        ///berjalan
+
+                        Consumer<List<StatusModel>>(
+                          builder: (context, statusModels, _) {
+                            final filtered = statusModels
+                                .where((e) => e.status != "Selesai")
+                                .toList();
+
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    statusModels.isEmpty
+                                        ? Center(
+                                            child: CircularProgressIndicator())
+                                        : buildCard(
+                                            filtered[index],
+                                          ),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
                             );
                           },
-                          itemCount: _stat.listworking.length,
-                          shrinkWrap: true,
                         ),
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                buildDone(_stat.listdone, index, _stat),
-                                SizedBox(
-                                  height: 20,
-                                ),
-                              ],
+
+                        /// selesai
+                        Consumer<List<StatusModel>>(
+                          builder: (context, statusModels, _) {
+                            final filtered = statusModels
+                                .where((e) => e.status == "Selesai")
+                                .toList();
+
+                            return ListView.builder(
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    context.debugDoingBuild
+                                        ? Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.amber[800],
+                                            ),
+                                          )
+                                        : buildCard(
+                                            filtered[index],
+                                          ),
+                                  ],
+                                );
+                              },
+                              itemCount: filtered.length,
+                              shrinkWrap: true,
                             );
                           },
-                          itemCount: _stat.listdone.length,
-                          shrinkWrap: true,
                         ),
                       ],
                     ),
@@ -180,7 +212,7 @@ class _HistoryState extends State<History> {
     if (!await launchUrl(Uri.parse(url))) throw 'Could not launch $url';
   }
 
-  Widget buildDone(List<StatusModel> statlist, int index, StatusProvider stat) {
+  Widget buildCard(StatusModel status) {
     return Card(
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
@@ -196,164 +228,102 @@ class _HistoryState extends State<History> {
             ),
           ),
           Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  statlist[index].restoname,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  statlist[index].status,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                InkWell(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15.0),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.deepOrange.withOpacity(0.15),
-                          spreadRadius: 0,
-                          blurRadius: 50,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
+          Expanded(
+            flex: 5,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  AutoSizeText(
+                    status.restoname,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontFamily: 'Poppins',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
                     ),
-                    child: MaterialButton(
-                      minWidth: 0.1,
-                      height: 30,
-                      onPressed: () {
-                        //TODO: passing idresto,idprod,restoname, prodname
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => ReviewResto(),
+                    minFontSize: 10,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    status.status,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontFamily: 'Poppins',
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  InkWell(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15.0),
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.deepOrange.withOpacity(0.15),
+                            spreadRadius: 0,
+                            blurRadius: 50,
+                            offset: const Offset(0, 4),
                           ),
-                        );
-                      },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                        ],
                       ),
-                      child: Text(
-                        'Review',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
+                      child: status.status == 'Selesai'
+                          ? MaterialButton(
+                              minWidth: 0.1,
+                              height: 30,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ReviewResto(),
+                                  ),
+                                );
+                              },
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Text(
+                                'Review',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            )
+                          : MaterialButton(
+                              minWidth: 0.1,
+                              height: 30,
+                              onPressed: () {
+                                _openWa(status.restonum);
+                              },
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: Text(
+                                'Chat',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontFamily: 'Poppins',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildWorking(List<StatusModel> statlist, int index) {
-    return Card(
-      shadowColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Row(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/images/sateAvatar.png'),
-            ),
-          ),
-          Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  statlist[index].restoname,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'Poppins',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                Text(
-                  statlist[index].status,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontFamily: 'Poppins',
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                InkWell(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
-                  ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.deepOrange.withOpacity(0.15),
-                          spreadRadius: 0,
-                          blurRadius: 50,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: MaterialButton(
-                      minWidth: 0.1,
-                      height: 30,
-                      onPressed: () {
-                        _openWa(statlist[index].restonum);
-                      },
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Text(
-                        'Chat',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],

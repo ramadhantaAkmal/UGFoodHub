@@ -10,7 +10,9 @@ import 'package:ug_foodhub/ui/page/log_in.dart';
 
 import 'logic/provider/cart_provider.dart';
 import 'logic/provider/profile_provider.dart';
+import 'logic/provider/rate_provider.dart';
 import 'logic/provider/status_provider.dart';
+import 'model/status_model.dart';
 
 Future<void> main() async {
   //
@@ -46,7 +48,12 @@ class UGFoodHub extends StatelessWidget {
             ChangeNotifierProvider(create: (_) => LoginProvider()),
             ChangeNotifierProvider(create: (_) => CartProvider()),
             ChangeNotifierProvider(create: (_) => ProfileProvider()),
-            ChangeNotifierProvider(create: (_) => StatusProvider()),
+            ChangeNotifierProvider(create: (_) => RateProvider()),
+            StreamProvider<List<StatusModel>>(
+              create: (context) => StatusProvider().loadStream(),
+              initialData: [],
+              catchError: (_, error) => [],
+            ),
           ],
           child: MaterialApp(
               theme: ThemeData(fontFamily: "Poppins"),

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import '../../logic/provider/rate_provider.dart';
 import '../../logic/provider/status_provider.dart';
 import 'reviewfood_page.dart';
 
@@ -15,7 +16,7 @@ class ReviewResto extends StatefulWidget {
 class _ReviewRestoState extends State<ReviewResto> {
   @override
   Widget build(BuildContext context) {
-    StatusProvider _rate = Provider.of<StatusProvider>(context, listen: true);
+    RateProvider _rate = Provider.of<RateProvider>(context, listen: true);
     int rating = 0;
     return SafeArea(
       child: Scaffold(
